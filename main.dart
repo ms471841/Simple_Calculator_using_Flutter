@@ -67,11 +67,11 @@ class _Myhomepagestate extends State<Myhomepage> {
   }
 
   Widget customwidget(String cusbtn) {
-    String btnval;
+    
     return Expanded(
       child: OutlineButton(
         padding: EdgeInsets.all(20.0),
-        onPressed: () => btnclicked(btnval),
+        onPressed: () => btnclicked(cusbtn),
         child: Text(
           '$cusbtn',
           style: TextStyle(
