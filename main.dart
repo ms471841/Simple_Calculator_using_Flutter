@@ -49,13 +49,13 @@ class _Myhomepagestate extends State<Myhomepage> {
         res = (firstnum / secondnum).toString();
       }
       if (operationtoperform == "*") {
-        res = (firstnum / secondnum).toString();
+        res = (firstnum * secondnum).toString();
       }
       if (operationtoperform == "-") {
-        res = (firstnum / secondnum).toString();
+        res = (firstnum - secondnum).toString();
       }
       if (operationtoperform == "+") {
-        res = (firstnum / secondnum).toString();
+        res = (firstnum + secondnum).toString();
       }
     } else {
       res = int.parse(texttodisplay + btnval).toString();
