@@ -1,148 +1,137 @@
 import 'package:flutter/material.dart';
-
-
-
 void main() {
-  runApp(MyApp());
+  runApp(Whatsapp());
 }
 
-class MyApp extends StatelessWidget {
+class Whatsapp extends StatefulWidget {
+  @override
+  _Whatsappstate createState() => new _Whatsappstate();
+}
+
+class _Whatsappstate extends State<Whatsapp> {
+  int indexTab = 1;
+
+  Widget simplepop() {
+    return PopupMenuButton<int>(
+      itemBuilder: (context) => [
+        PopupMenuItem(
+          value: 1,
+          child: Text("first"),
+        ),
+        PopupMenuItem(
+          value: 2,
+          child: Text("second"),
+        ),
+      ],
+    );
+  }
+
+  Widget _setactionbutton(int value) {
+    if (value == 0) {
+      return Container();
+    } else if (value == 1) {
+      return FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.chat),
+        backgroundColor: Colors.teal,
+      );
+    } else if (value == 2) {
+      return Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+        FloatingActionButton(
+          child: Icon(Icons.edit),
+          onPressed: () {},
+          heroTag: null,
+          backgroundColor:Colors.black87,
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        FloatingActionButton(
+          child: Icon(Icons.camera_alt),
+          onPressed: () {},
+          heroTag: null,
+          backgroundColor:Colors.teal,
+        )
+      ]);
+    } else {
+      return FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.call),
+        backgroundColor: Colors.teal,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "DemoApp",
       // theme: ThemeData.dark().copyWith(scaffoldBackgroundColor: darkBlue),
       debugShowCheckedModeBanner: false,
-      home: Myhomepage(),
-    );
-  }
-}
-
-class Myhomepage extends StatefulWidget {
-  @override
-  _Myhomepagestate createState() => _Myhomepagestate();
-}
-
-class _Myhomepagestate extends State<Myhomepage> {
-  int firstnum;
-  int secondnum;
-  String texttodisplay = "";
-  String res;
-  String operationtoperform;
-
-  void btnclicked(String btnval) {
-    if (btnval == "C") {
-      texttodisplay = "";
-      firstnum = 0;
-      secondnum = 0;
-      res = "";
-    } else if (btnval == "/" ||
-        btnval == "*" ||
-        btnval == "-" ||
-        btnval == "+") {
-      firstnum = int.parse(texttodisplay);
-      res = "";
-      operationtoperform = btnval;
-    } else if (btnval == "=") {
-      secondnum = int.parse(texttodisplay);
-      if (operationtoperform == "/") {
-        res = (firstnum / secondnum).toString();
-      }
-      if (operationtoperform == "*") {
-        res = (firstnum * secondnum).toString();
-      }
-      if (operationtoperform == "-") {
-        res = (firstnum - secondnum).toString();
-      }
-      if (operationtoperform == "+") {
-        res = (firstnum + secondnum).toString();
-      }
-    } else {
-      res = int.parse(texttodisplay + btnval).toString();
-    }
-
-    setState(() {
-      texttodisplay = res;
-    });
-  }
-
-  Widget customwidget(String cusbtn) {
-    
-    return Expanded(
-      child: OutlineButton(
-        padding: EdgeInsets.all(20.0),
-        onPressed: () => btnclicked(cusbtn),
-        child: Text(
-          '$cusbtn',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
+      home: SafeArea(
+        child: DefaultTabController(
+          length: 4,
+          initialIndex: 1,
+          child: Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.teal,
+              title: Text("WhatsApp"),
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: Icon(Icons.more_vert),
+                  onPressed: () {
+                    simplepop();
+                  },
+                ),
+              ],
+              bottom: TabBar(
+                onTap: (index) {
+                  setState(() {
+                    indexTab = index;
+                  });
+                },
+                tabs: <Widget>[
+                  Tab(
+                    child: IconButton(
+                      icon: Icon(Icons.camera),
+                      onPressed: () {},
+                    ),
+                  ),
+                  Tab(
+                    child: Text("CHATS"),
+                  ),
+                  Tab(
+                    child: Text("STATUS"),
+                  ),
+                  Tab(
+                    child: Text("CALLS"),
+                  ),
+                ],
+              ),
+            ),
+            floatingActionButton: _setactionbutton(indexTab),
+            body: TabBarView(
+              children: <Widget>[
+                Center(
+                  child: Text("page1"),
+                ),
+                Center(
+                  child: Text("page2"),
+                ),
+                Center(
+                  child: Text("page3"),
+                ),
+                Center(
+                  child: Text("page4"),
+                ),
+              ],
+            ),
           ),
         ),
       ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Calculator"),
-        backgroundColor: Colors.teal,
-      ),
-   
-
-      body: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            Expanded(
-              child: Container(
-                padding: EdgeInsets.all(10.0),
-                alignment: Alignment.bottomRight,
-                child: Text(
-                  "$texttodisplay",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
-                  ),
-                ),
-              ),
-            ),
-            Row(
-              children: <Widget>[
-                customwidget("7"),
-                customwidget("8"),
-                customwidget("9"),
-                customwidget("/"),
-              ],
-            ), //row
-            Row(
-              children: <Widget>[
-                customwidget("4"),
-                customwidget("5"),
-                customwidget("6"),
-                customwidget("*"),
-              ],
-            ), //row
-            Row(
-              children: <Widget>[
-                customwidget("1"),
-                customwidget("2"),
-                customwidget("3"),
-                customwidget("-"),
-              ],
-            ), //row
-            Row(
-              children: <Widget>[
-                customwidget("C"),
-                customwidget("0"),
-                customwidget("="),
-                customwidget("+"),
-              ],
-            ), //row
-          ],
-        ), //col
-      ), //container
     );
   }
 }
